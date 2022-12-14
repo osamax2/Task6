@@ -1,0 +1,246 @@
+// assets/styles/global.scss
+
+// customize some Bootstrap variables
+$primary: darken(#428bca, 20%);
+
+// the ~ allows you to reference things in node_modules
+@import "~bootstrap/scss/bootstrap";
+* {
+  box-sizing: border-box;
+  position: relative;
+}
+
+body{background: linear-gradient(to right, #c04848, #480048);min-height: 100vh}.text-gray{color: #aaa}
+img{height: 300px;width: 150px}
+.nav-item {
+  padding-right: 10px !important;
+}
+.bd-example {
+  margin-bottom: 10px;
+  padding: 1.5rem;
+  margin-left: 0;
+  border-width: 1px;
+  border-top-left-radius: 1.25rem;
+  border-top-right-radius: 1.25rem;
+  position: relative;
+  border: solid #dee2e6;
+  border-width: 1px 0 0;
+  background-color: #FFFFFF;
+  margin-right: 24px;
+}
+
+.articles {
+  display: grid;
+  grid-gap: 1rem;
+  place-items: center;
+}
+
+.articles * {
+  transition-duration: var(--duration);
+  transition-delay: var(--delay);
+  transition-timing-function: var(--easing);
+}
+
+.articles>header {
+  grid-column: 1/-1;
+}
+
+.articles:before {
+ // content: "";
+ // position: fixed;
+ // top: 0;
+ // left: 0;
+  //width: 100vw;
+ // height: 100vh;
+ // background-color: var(--bg-color, transparent);
+ // transition: background-color 1s;
+}
+
+.articles article {
+  list-style-type: none;
+  display: list-item;
+  font-family: "Work Sans", sans-serif;
+  width: 100%;
+  --radius: 1rem;
+}
+
+.articles article:hover {
+  transform: translateY(-0.5rem);
+}
+
+.articles article:hover:before {
+  opacity: 1;
+}
+
+.articles article:before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.2);
+  opacity: 0;
+  border-radius: var(--radius);
+  transition: transform 0.3s;
+  transition-property: transform, opacity;
+}
+
+.articles article .image {
+  overflow: hidden;
+  border-radius: var(--radius);
+  transition-property: transform, border-radius;
+  transform-origin: top left;
+}
+
+.articles article .image[data-flipping] {
+  border-radius: calc((var(--dw)) * var(--radius))/calc((var(--dh)) * var(--radius));
+}
+
+.articles article .image img {
+  display: block;
+  transition: inherit;
+  transform-origin: top left;
+}
+
+.articles article .image[data-flipping] {
+  transition: none;
+  transform: translate(calc(-1px * var(--dx)), calc(-1px * var(--dy))) scale(calc(1 / var(--dw)), calc(1 / var(--dh)));
+}
+
+.articles article .image[data-flipping] img {
+  transform: scale(calc(var(--dw)), calc(var(--dh)));
+}
+
+.articles article .content {
+  color: #aaa;
+  padding: 2rem;
+  z-index: 2;
+  display: grid;
+  align-items: center;
+  align-content: center;
+  justify-content: start;
+  grid-gap: 1rem 0rem;
+  grid-template-columns: auto auto;
+  width: 100%;
+}
+
+.articles article .content:before {
+  content: "";
+  background: white;
+  border-radius: var(--radius);
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  transition: inherit;
+  transform-origin: top left;
+  transition-property: transform, border-radius;
+}
+
+.articles article .content[data-flipping]:before {
+  transition: none;
+  transform: scale(calc(1 / var(--dw)), calc(1 / var(--dh)));
+  border-radius: calc((var(--dw)) * var(--radius))/calc((var(--dh)) * var(--radius));
+}
+
+.articles article h1 {
+  grid-column: 1/-1;
+  font-weight: 500;
+  margin: 0;
+  font-size: 1.6rem;
+  line-height: 1.2;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  color: #000;
+}
+
+.articles article svg {
+  fill: currentColor;
+  width: 1em;
+  height: 1em;
+}
+
+.toggle {
+
+}
+
+.toggle:hover {
+
+}
+
+.toggle svg {
+
+}
+
+[data-view=list] .toggle [data-view=list],
+[data-view=card] .toggle [data-view=card] {
+
+}
+
+/* ---------------------------------- */
+[data-flip] {
+  transition-property: transform;
+}
+
+[data-flip][data-flipping] {
+  transition: none;
+  transform: translate(calc(-1px * var(--dx)), calc(-1px * var(--dy)));
+}
+
+.articles[data-view=card] {
+  grid-template-columns: repeat(4, minmax(auto, 1fr));
+  max-width: 70vw;
+  --bg-color: #3730e9;
+}
+
+.articles[data-view=card] article {
+  grid-template-rows: 1fr auto;
+}
+
+.articles[data-view=card] article .image {
+  margin-bottom: -2rem;
+}
+
+.articles[data-view=list] {
+  //--bg-color: #ffaa00;
+}
+
+.articles[data-view=list] article {
+  grid-template-columns: 40% 1fr;
+}
+
+.articles[data-view=list] article .image {
+  margin-right: -2rem;
+  height: 8em;
+  min-height: 100%;
+}
+.form-switch {
+  text-align: initial;
+  margin-top: 3%;
+}
+
+$nav-link-padding-y:                .5rem;
+$nav-link-padding-x:                1rem;
+$nav-link-font-size:                null;
+$nav-link-font-weight:              null;
+$nav-link-color:                    $link-color;
+$nav-link-hover-color:              $link-hover-color;
+$nav-link-transition:               color .15s ease-in-out, background-color .15s ease-in-out, border-color .15s ease-in-out;
+$nav-link-disabled-color:           $gray-600;
+
+$nav-tabs-border-color:             $gray-300;
+$nav-tabs-border-width:             $border-width;
+$nav-tabs-border-radius:            $border-radius;
+$nav-tabs-link-hover-border-color:  $gray-200 $gray-200 $nav-tabs-border-color;
+$nav-tabs-link-active-color:        $gray-700;
+$nav-tabs-link-active-bg:           linear-gradient(to right, #c04848, #480048);
+$nav-tabs-link-active-border-color: $gray-300 $gray-300 $nav-tabs-link-active-bg;
+
+$nav-pills-border-radius:           $border-radius;
+$nav-pills-link-active-color:       $component-active-color;
+$nav-pills-link-active-bg:          linear-gradient(to right, #c04848, #480048);
+
+

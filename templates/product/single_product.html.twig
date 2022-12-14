@@ -1,0 +1,56 @@
+{% extends 'base.html.twig' %}
+{% block body %}
+
+    <div class="container py-5">
+        <div class="row text-center text-white mb-5">
+            <div class="col-lg-7 mx-auto">
+                <h1 class="display-4">Product </h1>
+            </div>
+        </div>
+        <div class="row">
+            <div class="list-group mx-auto">
+                <div class="bd-example bg-white">
+                    <ul class="nav nav-pills nav-fill bg-white">
+                        <li class="nav-item">
+                            <a class="nav-link active" href="{{ path('home') }}">Back</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="row">
+                <div class="list-group shadow">
+                    <div class="articles products" data-view="list">
+                            <!-- list group item-->
+                            <article class="list-group-item product-wrapper">
+
+                                    <!-- Custom content-->
+                                    <div class="media align-items-lg-center flex-column flex-lg-row p-3" data-flip>
+                                        <div class="media-body order-2 order-lg-1 blockquote text-end" >
+                                            <h3 class="mb-0 font-weight-bold mb-2">{{ product.name }}</h3>
+                                            <h4>{{ product.brandName }}</h4>
+                                            <p>{{ product.descriptionText }}</p>
+                                            {% for articl in product.articles %}
+                                            <div class="align-items-center justify-content-between mt-1 text-end" >
+                                                <h5 class="font-weight-bold my-3 sortprice">{{ articl.price }} €</h5>
+                                            </div>
+                                            <h4 class="font-weight-bold my-3 filterprice">{{ articl.pricePerUnitText }} </h4>
+                                            <h4 class="font-weight-bold my-3 filterprice">{{ articl.unit }} </h4>
+                                        </div>
+                                        <img src="{{ articl.image }}" alt="Generic placeholder image" width="200" class="img ml-lg-6 order-1 col-lg-2 ">
+                                        {% endfor %}
+
+                                    </div> <!-- End -->
+
+                            </article>
+                            <!-- End -->
+                            <!-- list group item-->
+
+
+
+
+                    </div> <!-- End -->
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,261 @@
+{% extends 'base.html.twig' %}
+{% block javascripts %}
+    <script
+            src="https://code.jquery.com/jquery-3.6.2.slim.js"
+            integrity="sha256-OflJKW8Z8amEUuCaflBZJ4GOg4+JnNh9JdVfoV+6biw="
+            crossorigin="anonymous"></script>
+<script type='text/javascript' src='https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js'></script>
+{% endblock %}
+{% block body %}
+
+<div class="container py-5">
+    <div class="row text-center text-white mb-5">
+        <div class="col-lg-7 mx-auto">
+            <h1 class="display-4">Product List</h1>
+        </div>
+    </div>
+    <div class="row">
+    <div class="list-group mx-auto">
+            <div class="bd-example bg-white">
+            <ul class="nav nav-pills nav-fill bg-white">
+                <li class="nav-item">
+                    <a class="nav-link active" id="sorting" onclick="selectionChange()" aria-current="sort" href="#">Sort</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active toggle" href="#" data-flip>View
+                        <svg data-view="card" viewBox="0 0 448 512" style="display: none"  title="bars">
+                            <path d="M16 132h416c8.837 0 16-7.163 16-16V76c0-8.837-7.163-16-16-16H16C7.163 60 0 67.163 0 76v40c0 8.837 7.163 16 16 16zm0 160h416c8.837 0 16-7.163 16-16v-40c0-8.837-7.163-16-16-16H16c-8.837 0-16 7.163-16 16v40c0 8.837 7.163 16 16 16zm0 160h416c8.837 0 16-7.163 16-16v-40c0-8.837-7.163-16-16-16H16c-8.837 0-16 7.163-16 16v40c0 8.837 7.163 16 16 16z" />
+                        </svg>
+                        <svg data-view="list" viewBox="0 0 448 512" style="display: none" title="border-all">
+                            <path d="M416 32H32A32 32 0 0 0 0 64v384a32 32 0 0 0 32 32h384a32 32 0 0 0 32-32V64a32 32 0 0 0-32-32zm-32 64v128H256V96zm-192 0v128H64V96zM64 416V288h128v128zm192 0V288h128v128z" />
+                        </svg>
+
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="filter" onclick="filterChange()" href="#">Filter</a>
+                </li>
+                <li class="nav-item">
+                    <div class="form-check form-switch">
+                        <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault">
+                        <label class="form-check-label" for="flexSwitchCheckDefault">DES</label>
+                    </div>
+                </li>
+            </ul>
+            </div>
+    </div>
+            <div class="row">
+                <div class="list-group shadow">
+                    <div class="articles products" data-view="list">
+
+                    {% for product in products %}
+                    <!-- list group item-->
+                        {% for articl in product.articles %}
+                <article  class="list-group-item product-wrapper">
+                    <a data-flip href="{{  path('products_show', {id:product.id}) }}">
+                        <!-- Custom content-->
+                        <div class="media align-items-lg-center flex-column flex-lg-row p-3" data-flip>
+                            <div class="media-body order-2 order-lg-1 blockquote text-end" >
+                                <h3 class="mb-0 font-weight-bold mb-2">{{ product.name }} </h3>
+                                <div class="align-items-center justify-content-between mt-1 text-end" >
+                                    <h4 class="font-weight-bold my-3 sortprice">{{ articl.price }} €</h4>
+                                </div>
+                                <h4 class="font-weight-bold my-3 filterprice">{{ articl.pricePerUnitText }} </h4>
+                            </div>
+                            <img src="{{ articl.image }}" alt="Generic placeholder image" width="200" class="img ml-lg-6 order-1 col-lg-2 ">
+                        </div> <!-- End -->
+                    </a>
+                    </article>
+                    <!-- End -->
+                    <!-- list group item-->
+                {% endfor %}
+                    {% endfor %}
+
+
+
+
+            </div> <!-- End -->
+        </div>
+    </div>
+</div>
+</div>
+
+    <script type='text/javascript'>
+
+        function hideClasses(){
+
+            var selectedClasses = document.getElementsByClassName('img');
+            for (var i = 0; i < selectedClasses.length; i++) {
+                selectedClasses[i].style.margin = '0 0 0 28%';
+                selectedClasses[i].style.width = '50%';
+            }
+
+            var selectedClasses = document.getElementsByClassName('blockquote');
+            for (var i = 0; i < selectedClasses.length; i++) {
+                selectedClasses[i].style.display = 'none';
+            }
+        };
+
+        function showClasses(){
+            var selectedClasses = document.getElementsByClassName('blockquote');
+            for (var i = 0; i < selectedClasses.length; i++) {
+                selectedClasses[i].style.display = 'block';
+            }
+            var selectedClasses = document.getElementsByClassName('img');
+            for (var i = 0; i < selectedClasses.length; i++) {
+                selectedClasses[i].style.margin = '0 0 0 0';
+                selectedClasses[i].style.width = '12%';
+            }
+        };
+
+        const elContainer = document.querySelector(".articles");
+        const elToggle = document.querySelector(".toggle");
+        const losFlippers = document.querySelectorAll("[data-flip]");
+
+        elToggle.addEventListener("click", () => {
+            flip(() => {
+                if( elContainer.dataset.view === "card") {
+                    showClasses();
+                    elContainer.dataset.view ="list";
+                }else {
+                    hideClasses();
+                    elContainer.dataset.view ="card";
+                }
+            }, losFlippers);
+        });
+
+        function getRect(el) {
+            return el.getBoundingClientRect();
+        }
+
+        function flip(doSomething, firstEls, getLastEls = () => firstEls) {
+            const firstElsRects = Array.from(firstEls).map(el => [el, getRect(el)]); // tuple [Element, ClientRect { ... } ]
+
+            requestAnimationFrame(() => {
+                doSomething();
+                const lastElsRects = Array.from(getLastEls()).map(el => [
+                    el,
+                    getRect(el)]);
+
+
+                firstElsRects.forEach(([firstEl, firstRect], i) => {
+                    let [lastEl, lastRect] = lastElsRects[i];
+                    const dx = lastRect.x - firstRect.x;
+                    const dy = lastRect.y - firstRect.y;
+                    const dw = lastRect.width / firstRect.width;
+                    const dh = lastRect.height / firstRect.height;
+                    lastEl.dataset.flipping = true;
+                    lastEl.style.setProperty("--dx", dx);
+                    lastEl.style.setProperty("--dy", dy);
+                    lastEl.style.setProperty("--dw", dw);
+                    lastEl.style.setProperty("--dh", dh);
+                    requestAnimationFrame(() => delete lastEl.dataset.flipping);
+                });
+            });
+        }</script>
+
+    <script>
+        var i =0;
+        $('#flexSwitchCheckDefault').on('change', function() {
+            console.log($(this).is(':checked'));
+        });
+
+    sortHelper = function(search, comparator) {
+        $('.product-wrapper').each(function() {
+            var data = $(this).find(search).text();
+            $(this).attr('data-name', data);
+        });
+
+        var $products = $('.products'),
+            $singleProduct = $('.product-wrapper');
+
+        $singleProduct.sort(comparator);
+        $singleProduct.detach().appendTo($products);
+    };
+        filterHelper = function(search, comparator) {
+            $('.product-wrapper').each(function() {
+                var data = $(this).find(search).text();
+                $(this).attr('data-name', data);
+            });
+
+            var $products = $('.products'),
+                $singleProduct = $('.product-wrapper');
+            if(i%2 ==0) {
+                $singleProduct = $singleProduct.filter(comparator).show();
+            }else {
+            $singleProduct = $singleProduct.filter(comparator).hide();
+            }
+            //$singleProduct.detach().appendTo($products);
+           // console.log($singleProduct)
+
+        };
+
+
+    var cmpfilter = function (index, element){
+          var an = element.getAttribute('data-name');
+          an = an.replace(/[,.]/g, '.');
+          var numberA = Number(an.replace(/[^0-9\.]+/g, ""));
+
+         if (numberA >= 2){
+              return true;
+         }
+         else {
+            return false;
+        }
+    }
+
+    var cmpPrice = function(a, b) {
+
+        var an = a.getAttribute('data-name');
+        var bn = b.getAttribute('data-name');
+        var numberA = Number(an.replace(/[^0-9\.]+/g, ""));
+        var numberB = Number(bn.replace(/[^0-9\.]+/g, ""));
+        if ($('#flexSwitchCheckDefault').is(':checked') == true) {
+            if (numberB > numberA) {
+                return 1;
+            }
+            if (numberB < numberA) {
+                return -1;
+            }
+            return 0;
+
+        }
+        else {
+            if (numberA > numberB) {
+                return 1;
+            }
+            if (numberA < numberB) {
+                return -1;
+            }
+            return 0;
+
+
+        }
+    };
+
+    var cmpName = function(a, b) {
+        var an = a.getAttribute('data-name');
+        var bn = b.getAttribute('data-name');
+        if (an > bn) {
+            return 1;
+        }
+        if (an < bn) {
+            return -1;
+        }
+        return 0;
+    };
+    var cmpNameDesc = function(a, b) {
+        return cmpName(b, a);
+    };
+
+    selectionChange = function() {
+
+        sortHelper('.sortprice', cmpPrice);
+    };
+    filterChange = function () {
+        i = i +1;
+        filterHelper('.filterprice',cmpfilter);
+        };
+</script>
+
+{% endblock %}

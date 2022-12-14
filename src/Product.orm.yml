@@ -1,0 +1,40 @@
+# src/Product.orm.yml
+AppBundle\Entity\Product:
+    type: entity
+    table: product
+    id:
+        id:
+            type: integer
+            generator: { strategy: AUTO }
+    fields:
+        brandName:
+            type: string
+            length: 255
+        name:
+            type: string
+            length: 255
+        articles:
+            type: entity
+            table: article
+            id:
+                id:
+                    type: integer
+                    generator: { strategy: AUTO }
+            fields:
+                shortDescription:
+                    type: string
+                    length: 255
+                price:
+                    type: decimal
+                    scale: 2
+                unit:
+                    type: string
+                    length: 100
+                pricePerUnitText:
+                    type: string
+                    length: 255
+                image:
+                    type: string
+                    length: 255
+        descriptionText:
+            type: text

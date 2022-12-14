@@ -1,0 +1,14 @@
+{
+  "devDependencies": {
+    "@babel/core": "^7.20.5",
+    "@popperjs/core": "^2.11.6",
+    "@symfony/webpack-encore": "^4.1.2",
+    "bootstrap": "^5.2.3",
+    "jquery": "^3.6.2",
+    "sass": "^1.56.2",
+    "sass-loader": "^13.0.0"
+  },
+  "dependencies": {
+    "yarn": "^1.22.19"
+  }
+}
