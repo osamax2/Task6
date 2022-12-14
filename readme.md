@@ -1,5 +1,5 @@
-yarn encore dev --watch
 Ensure you create directory in your directory.
+------------
 
 `git clone https://github.com/osamax2/Task6.git`
 
